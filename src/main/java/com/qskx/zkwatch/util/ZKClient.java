@@ -52,6 +52,8 @@ public class ZKClient {
                 }
             } catch (InterruptedException e) {
                 log.error("getClient -> 加锁失败: {}", e.getMessage(), e);
+            } finally {
+                instanceLock.unlock();
             }
         }
 

@@ -23,7 +23,8 @@ public class ZKConf {
                 if (watchedEvent.getState() == Event.KeeperState.Expired){
                     zkClient.destroy();
                     zkClient.getClient();
-                    //TODO
+                    LocalCacheConf.reloadAll();
+                    log.info("zk re-connect, reloadAll success .");
                 }
 
                 String path = watchedEvent.getPath();
@@ -33,11 +34,13 @@ public class ZKConf {
                         Stat stat = zkClient.getClient().exists(path, true);
                         if (null != stat){
                             if (watchedEvent.getType() == Event.EventType.NodeDeleted){
+                                LocalCacheConf.remove(key);
                                 //TODO
                                 log.info("localCacheConf remove key and data.");
                             } else if (watchedEvent.getType() == Event.EventType.NodeDataChanged){
-                                //TODO
                                 String data = get(key);
+                                LocalCacheConf.update(key, data);
+                                //TODO
                                 log.info("localCacheConf change data: {}", data );
                             }
                         }
@@ -67,6 +70,7 @@ public class ZKConf {
     public static void set(String key, String data) {
         String path = keyToPath(key);
         zkClient.setData(path, data);
+//        LocalCacheConf.set(key, data, "SET");
     }
 
     public static void delete(String key){
