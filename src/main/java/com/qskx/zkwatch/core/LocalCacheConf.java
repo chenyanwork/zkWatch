@@ -50,7 +50,7 @@ public class LocalCacheConf {
         init();
     }
 
-    public void destory(){
+    public static void destory(){
         if (null != cacheManager){
             cacheManager.close();
         }
