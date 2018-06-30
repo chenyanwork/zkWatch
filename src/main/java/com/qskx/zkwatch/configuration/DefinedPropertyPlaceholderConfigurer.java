@@ -120,7 +120,7 @@ public class DefinedPropertyPlaceholderConfigurer extends PropertySourcesPlaceho
         String[] beanNames = beanFactoryToProcess.getBeanDefinitionNames();
         if (beanNames != null && beanNames.length > 0){
             for (String s : beanNames) {
-                if (!(s.equals(s) && beanFactoryToProcess.equals(beanFactory))) {
+                if (!(s.equals(this.beanName) && beanFactoryToProcess.equals(beanFactory))) {
 
                     //XML('${...}')
                     BeanDefinition beanDefinition = beanFactoryToProcess.getBeanDefinition(s);
